@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+bool panduan(string str) {
+	int count_a = 0, count_b = 0, count_c = 0,P=0,T=0;
+	char t = ' ';
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == 'P' || str[i] == 'T'){
+			t = str[i];
+			if (t == 'P')
+				if(T > 0 || P > 0)  //出现多个P或者T判错，否则个数加一
+					return false;
+			    else 
+				    P++;
+			else if (t == 'T')
+				if( T > 0 || P == 0)  //T在P前面出现判错，否则个数加一
+					return false;
+			    else
+				    T++;
+		}
+		if (str[i] != 'P' && str[i] != 'A' && str[i] != 'T')  // 出现其他字符判错
+			return false;
+	    if (str[i] == 'P' && str[i + 1] == 'A' && str[i + 2] == 'T')  //符合条件二的字符串直接判对
+			return true;
+	    if (str[i] == 'A') {   //计算a，b，c中A的个数
+			if (t !='P'&& t!='T')
+				count_a++;
+			else if (t == 'P')
+				count_b++;
+			else 
+				count_c++;
+		}
+	}
+	if (count_b < 1)
+		return false;
+	else if (count_a * count_b == count_c && P==1 && T==1)   //符合推理条件三并且P、T只有一个
+		return true;
+	else return false;   //否则判错
+}
+int main()
+{
+	int num;
+	cin >> num;
+
+	string processData[10];
+	bool result = true;
+	for (int i = 0; i < num; i++) {
+		cin >> processData[i];
+	}
+	for (int i = 0; i < num; i++) {
+		result = panduan(processData[i]);
+		if (result)
+			cout << "YES" << endl;
+	    else cout << "NO" << endl;
+	}
+		
+	return 0;
+
+}
