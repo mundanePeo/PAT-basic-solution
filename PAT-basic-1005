@@ -1,0 +1,41 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n,number;
+	int result[105] = { 0 };  //用于存放输入的数
+	cin >> n;    //数据个数
+	for (int i = 0; i < n; i++) {
+		cin >> number;  //输入要检测的数
+		result[number] = 1; //标记初始化
+	}
+	for (int i = 0; i < 101; i++) {  //实际上给定的数据范围是(1,100],所以计算过程中大于100的数不用考虑
+		if(result[i]!=0 && result[i]!=2 ){    //参与循环的数据必须是输入的数据而且是未被标记过非关键数的数
+		  int temp = i;
+			while ( temp!=1) {
+				if (temp % 2 == 0) 
+					temp = temp / 2;
+				else temp = (temp * 3 + 1) / 2;
+				for (int k = 0; k < 105; k++)    //如果找到了相同的数，则标记为非关键数(2)
+					if(result[k]==1&&temp==k)
+						result[k] = 2;
+			}
+		}
+	}
+    int temp=0;
+    for(int i=0;i<101;i++)   //寻找最小的关键数
+        if(result[i]==1){
+            temp=i;
+            break;
+        }
+
+	for (int i = 104; i >=0; i--) {
+		if(result[i]==1){
+			cout << i;
+		    if (i >temp)
+				cout << " ";
+		}
+	}
+}
