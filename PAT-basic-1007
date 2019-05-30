@@ -1,0 +1,37 @@
+The description and analysis of the question is in here:  https://blog.csdn.net/ThunderF/article/details/90692781
+
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+bool IsPrime(int num) {  //判断是否为素数
+	for (int i = 2; i <= sqrt(num); i++) {
+		if (num%i == 0)
+			return false;
+	}
+	return true;
+}
+int Number_of_PairPrime(int n) {   //计算素数对个数
+	int number = 0;  //此变量代表素数对的个数
+	for (int i = n; i > 3; i--) {  //从最后一位开始循环
+		if (!IsPrime(i)) //如果不是素数则跳过
+			continue;
+		else {
+			int temp = i;
+				while (temp >= i - 3) { //直到temp<i-2
+					if (IsPrime(temp) && i - temp == 2){    //如果是temp是素数且与i差2，则个数加一
+						number++;
+					}
+					temp--;
+			    }
+		}
+	}
+	return number;  //返回个数
+}
+int main()
+{
+	int n;
+	cin >> n;
+	int number = Number_of_PairPrime(n);
+	cout<<number;
+}
