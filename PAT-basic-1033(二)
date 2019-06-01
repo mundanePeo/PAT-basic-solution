@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool iserror(char ch, string error) { //判断该字符是不是坏键
+	if (error.find(ch) != error.npos)
+		return true;
+	else return false;
+}
+void replacestr(char ch1,char ch2, string &str) {  //将输入字符串中的坏键替换掉
+	for (unsigned int i = 0; i < str.length(); i++) {
+		if (str[i] == ch1)
+			str[i] = ch2;
+	}
+}
+int main()
+{
+	string errorKey, inKey;
+	char ch1;
+	while ((ch1 = getchar()) != '\n')   //之所以这样输入，是因为坏键字符串有可能为空
+		errorKey=errorKey+ch1;
+	cin >> inKey;
+	unsigned int length2 = inKey.length();
+	unsigned int length1 = errorKey.length();
+	int pos = errorKey.find('+');
+	int count = 0;
+	for (unsigned int i = 0; i < length2; i++) {  //对每一个输入字符进行判断，其实还可以进行剪枝的
+		char ch = inKey[i];
+		if (isalpha(inKey[i])) { //处理字母
+			if (pos != errorKey.npos) {  //有+
+				if (isupper(ch))
+					replacestr(ch, '*', inKey);
+				else {    
+					ch = toupper(ch);
+					if (iserror(ch, errorKey)) {
+						ch = tolower(ch);
+						replacestr(ch, '*', inKey);
+					}
+				}
+			}
+			else {    //无+
+				ch = toupper(ch);
+				if (iserror(ch, errorKey)) {
+					replacestr(ch, '*', inKey);
+					ch = tolower(ch);
+					replacestr(ch, '*', inKey);
+				}
+			}
+		}
+		else {      //数字等其他字符
+			if (iserror(ch, errorKey)) {
+				replacestr(ch, '*', inKey);
+			}
+		}
+	}
+	for (unsigned int i = 0; i < length2; i++)   //输出
+		if (inKey[i] != '*')
+			cout << inKey[i];
+		else count++;
+	if (count == length2)  //若全部为坏键，则输出回车
+		cout << endl;
+	return 0;
+}
