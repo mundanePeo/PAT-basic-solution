@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+void RightMove(int *num,int n,int length) {
+'''
+num:输入的数组A
+n:要移动的长度
+length:数组长度
+'''
+	if(n%length!=0){ //当且仅当n不是length的倍数，我们才对数组分别输出
+		n = n % length;
+		for (int i = length - n; i < length; i++) { //先输出要右移的那些数
+			cout << num[i] << " ";
+	    }
+	    for (int i = 0; i < length - n; i++){ //在输出剩下的那些数
+		    cout << num[i];
+		    if (i != length - n - 1)
+				cout << " ";
+	    }
+	}
+	else{
+		for (int i = 0; i < length; i++) {//n是length的倍数，直接输出就好了
+			cout << num[i];
+			if(i!=length-1)
+				cout <<" ";
+		}
+	}
+}
+int main()
+{
+	int *num = new int[101];
+	int n, length;
+	cin >> length >> n;
+	for (int i = 0; i < length; i++)
+		cin >> num[i];
+	RightMove(num, n, length);
+	delete [] num;
+}
