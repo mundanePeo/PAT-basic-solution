@@ -1,3 +1,5 @@
+The description and analysis of the question is in here:  https://blog.csdn.net/ThunderF/article/details/93340651
+
 #include <iostream>
 using namespace std;
 void RightMove(int *num,int n,int length) {
